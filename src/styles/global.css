@@ -176,6 +176,46 @@
   animation: none;
 }
 
+/* Exclude animated background from view transitions to prevent glitches */
+::view-transition-old(animated-background),
+::view-transition-new(animated-background),
+::view-transition-old(bg-gradient),
+::view-transition-new(bg-gradient),
+::view-transition-old(blob-1),
+::view-transition-new(blob-1),
+::view-transition-old(blob-2),
+::view-transition-new(blob-2),
+::view-transition-old(blob-3),
+::view-transition-new(blob-3) {
+  animation: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Ensure animated background elements are always visible and properly rendered */
+[transition\:persist] {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Ensure background container is always visible during transitions */
+[transition\:persist="animated-background"] {
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: -10;
+}
+
+/* Prevent animated blobs from causing visual glitches during transitions */
+.animated-blob {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  /* Ensure blobs are always rendered, even during transitions */
+  opacity: inherit;
+}
+
 /* Prevent layout shifts from images */
 img {
   max-width: 100%;
