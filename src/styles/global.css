@@ -189,29 +189,33 @@ svg[data-icon] {
   flex-shrink: 0;
 }
 
-/* Prevent SVG icons from expanding - use explicit size constraints */
-svg.size-3 {
+/* Prevent SVG icons from expanding - support both size-* and h-*/w-* classes */
+svg.size-3,
+svg.h-3.w-3 {
   width: 0.75rem !important;
   height: 0.75rem !important;
   max-width: 0.75rem !important;
   max-height: 0.75rem !important;
 }
 
-svg.size-4 {
+svg.size-4,
+svg.h-4.w-4 {
   width: 1rem !important;
   height: 1rem !important;
   max-width: 1rem !important;
   max-height: 1rem !important;
 }
 
-svg.size-5 {
+svg.size-5,
+svg.h-5.w-5 {
   width: 1.25rem !important;
   height: 1.25rem !important;
   max-width: 1.25rem !important;
   max-height: 1.25rem !important;
 }
 
-svg.size-6 {
+svg.size-6,
+svg.h-6.w-6 {
   width: 1.5rem !important;
   height: 1.5rem !important;
   max-width: 1.5rem !important;
