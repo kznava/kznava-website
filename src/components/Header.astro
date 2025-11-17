@@ -10,10 +10,14 @@ import logo from '../../public/static/logo.svg'
   <div
     class="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4 py-3"
   >
-    <Link href="/" class="flex shrink-0 items-center justify-center gap-3">
-      <Image src={logo} alt="Logo" class="size-5 sm:size-6" />
+    <Link href="/" class="flex shrink-0 items-center justify-center gap-3 group">
+      <Image 
+        src={logo} 
+        alt="Logo" 
+        class="size-5 sm:size-6 transition-all group-hover:scale-110 drop-shadow-[0_0_8px_rgba(0,102,255,0.4)] dark:drop-shadow-[0_0_12px_rgba(51,138,255,0.6)]" 
+      />
       <span
-        class="hidden h-full text-lg leading-none font-medium min-[400px]:block"
+        class="hidden h-full text-lg leading-none font-bold min-[400px]:block bg-gradient-to-r from-[#0066ff] via-[#338aff] to-[#0066ff] bg-clip-text text-transparent bg-[length:200%_100%] animate-shine"
         >{SITE.title}</span
       >
     </Link>

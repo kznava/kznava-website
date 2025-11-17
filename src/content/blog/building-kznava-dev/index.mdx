@@ -1,0 +1,550 @@
+---
+title: 'Building kznava.dev: A Modern Developer Portfolio'
+description: 'A comprehensive look at how this website was built using Astro, Tailwind CSS, and astro-erudite as a foundation.'
+date: 2025-11-15
+tags: ['astro', 'web-development', 'portfolio', 'tailwind']
+image: './banner.png'
+authors: ['kznava']
+---
+
+## From template to personalized portfolio
+
+Building a personal website that truly represents your identity as a developer requires more than just filling in content. This post explores the journey of transforming [astro-erudite](https://github.com/jktrn/astro-erudite), an opinionated static blogging template, into a personalized portfolio that reflects my development philosophy and aesthetic preferences.
+
+### Why astro-erudite?
+
+When selecting a foundation for this website, several key factors influenced the decision to use [astro-erudite](https://github.com/jktrn/astro-erudite):
+
+**Technical excellence**: Built on Astro, the template leverages modern web development practices including static site generation, optimized asset handling, and TypeScript support. The use of Tailwind CSS provides utility-first styling flexibility, while shadcn/ui components ensure consistent, accessible UI patterns.
+
+**Content-first architecture**: The template's MDX-based content system with Expressive Code integration makes technical writing seamless. Support for features like syntax highlighting, callouts, and rich media embeds aligns perfectly with the needs of a developer-focused blog.
+
+**Extensibility**: Rather than being a rigid framework, [astro-erudite](https://github.com/jktrn/astro-erudite) provides a solid foundation that encourages customization. The codebase is well-organized, documented, and designed to be modified.
+
+## Core customizations and enhancements
+
+The transformation from template to personalized portfolio involved strategic modifications across multiple dimensions: design system, component architecture, and user experience enhancements.
+
+### Establishing a cohesive design language
+
+The most significant visual change involved implementing a comprehensive blue theme throughout the site. This wasn't simply changing a few color values, but rather establishing a complete design system using OKLCH color space for better perceptual uniformity:
+
+```css
+:root {
+  --primary: oklch(0.50 0.20 260);
+  --ring: oklch(0.60 0.20 260);
+  --border: oklch(0.88 0.025 260);
+}
+
+[data-theme='dark'] {
+  --primary: oklch(0.70 0.20 260);
+  --ring: oklch(0.65 0.20 260);
+  --border: oklch(0.25 0.04 260);
+}
+```
+
+Beyond static colors, the site features dynamic background animations that create visual interest without overwhelming content. Animated gradient blobs and floating elements use reduced opacity in light mode to maintain readability while providing subtle movement.
+
+### Component-driven development
+
+Several reusable components were developed to maintain consistency and reduce code duplication:
+
+#### TechSection component
+
+Rather than manually writing HTML for each technology stack section, this component accepts a title, technology array with optional icons, and styling options:
+
+```astro
+---
+interface Tech {
+  name: string
+  icon?: string
+}
+
+interface Props {
+  title: string
+  technologies: Tech[]
+  centered?: boolean
+  className?: string
+}
+
+const { title, technologies, centered = false, className = '' } = Astro.props
+---
+
+<div class={`group cursor-default rounded-2xl border border-[#0066ff]/20 
+  bg-gradient-to-br from-[#0066ff]/5 to-transparent p-6 
+  transition-all duration-300 hover:border-[#0066ff]/40 
+  hover:shadow-xl ${className}`}>
+  <h2 class={`mb-4 text-xl font-medium ${centered ? 'text-center' : ''}`}>
+    {title}
+  </h2>
+  <div class={`flex flex-wrap gap-2 ${centered ? 'justify-center' : ''}`}>
+    {technologies.map((tech) => (
+      <Badge variant="muted">
+        {tech.icon && <Icon name={tech.icon} class="mr-1 size-3" />}
+        {tech.name}
+      </Badge>
+    ))}
+  </div>
+</div>
+```
+
+This component is used throughout the site for displaying technology stacks:
+
+```astro
+<TechSection
+  title="Programming Languages & Technologies"
+  technologies={[
+    { name: 'C# / .NET', icon: 'lucide:code-xml' },
+    { name: 'VB.NET', icon: 'lucide:code' },
+    { name: 'JavaScript', icon: 'lucide:braces' },
+    { name: 'T-SQL', icon: 'lucide:database' },
+  ]}
+/>
+```
+
+#### WorkExperience component
+
+Professional experience is displayed using a timeline-style component that features gradient icons, company details, and technology badges:
+
+```astro
+---
+interface Props {
+  title: string
+  company: string
+  period: string
+  description: string
+  technologies: string[]
+  icon: string
+}
+
+const { title, company, period, description, technologies, icon } = Astro.props
+---
+
+<div class="relative pb-8 last:pb-0">
+  <!-- Timeline line -->
+  <div class="absolute left-0 top-0 h-full w-0.5 
+    bg-[#0066ff]/20 dark:bg-[#338aff]/20"></div>
+  
+  <div class="relative flex items-start gap-4">
+    <!-- Icon circle -->
+    <div class="flex size-10 shrink-0 items-center justify-center 
+      rounded-full bg-gradient-to-br from-[#0066ff] to-[#338aff] 
+      shadow-lg shadow-[#0066ff]/30 z-10">
+      <Icon name={icon} class="size-5 text-white" />
+    </div>
+    
+    <div class="flex-1 pt-1">
+      <div class="mb-1 flex flex-col sm:flex-row 
+        sm:items-center sm:justify-between gap-1">
+        <h3 class="text-lg font-bold">{title}</h3>
+        <span class="text-muted-foreground text-sm">{period}</span>
+      </div>
+      <p class="text-[#0066ff] dark:text-[#338aff] 
+        text-sm font-medium mb-2">{company}</p>
+      <p class="text-muted-foreground text-sm leading-relaxed mb-3">
+        {description}
+      </p>
+      <div class="flex flex-wrap gap-2">
+        {technologies.map((tech) => (
+          <Badge variant="muted" className="text-xs">{tech}</Badge>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+Usage on homepage:
+
+```astro
+<WorkExperience
+  title="Information System Manager"
+  company="Multitel Pagliero S.p.A."
+  period="Feb 2022 - Present"
+  description="Leading digital transformation initiatives..."
+  technologies={['ERP', 'System Architecture', 'IT Security']}
+  icon="lucide:building-2"
+/>
+```
+
+#### Enhanced card components
+
+Both project and blog cards were redesigned with blue gradient backgrounds and glowing borders. Here's the BlogCard implementation:
+
+```astro
+<article class="group relative overflow-hidden rounded-2xl 
+  border border-[#0066ff]/20 
+  bg-gradient-to-br from-[#0066ff]/5 via-transparent to-[#338aff]/5 
+  p-6 transition-all duration-300 
+  hover:border-[#0066ff]/40 hover:shadow-lg hover:shadow-[#0066ff]/10 
+  dark:border-[#338aff]/30 dark:from-[#0066ff]/10 dark:to-[#338aff]/10 
+  dark:hover:border-[#338aff]/50 dark:hover:shadow-[#338aff]/20">
+  
+  <Link href={`/${entry.collection}/${entry.id}`} class="flex flex-col gap-6">
+    {entry.data.image && (
+      <div class="overflow-hidden rounded-xl border border-[#0066ff]/20">
+        <Image
+          src={entry.data.image}
+          alt={entry.data.title}
+          width={1200}
+          height={630}
+          quality="high"
+          class="aspect-video w-full object-cover 
+            transition-transform duration-300 group-hover:scale-105"
+        />
+      </div>
+    )}
+    
+    <div class="flex items-start gap-4">
+      <div class="flex size-12 shrink-0 items-center justify-center 
+        rounded-xl bg-gradient-to-br from-[#0066ff] to-[#338aff] 
+        shadow-lg shadow-[#0066ff]/30">
+        <Icon name="lucide:file-text" class="size-6 text-white" />
+      </div>
+      
+      <div class="flex-1">
+        <h3 class="mb-2 text-xl font-bold 
+          group-hover:text-[#0066ff] transition-colors 
+          dark:group-hover:text-[#338aff]">
+          {entry.data.title}
+        </h3>
+        <p class="text-muted-foreground text-base leading-relaxed">
+          {entry.data.description}
+        </p>
+      </div>
+    </div>
+  </Link>
+</article>
+```
+
+### User experience refinements
+
+Multiple UX enhancements were implemented to improve site usability:
+
+#### Reading progress indicator
+
+A fixed progress bar at the top of blog posts provides visual feedback about reading completion:
+
+```astro
+<div
+  id="reading-progress-bar"
+  class="fixed top-0 left-0 h-1 w-0 
+    bg-gradient-to-r from-[#0066ff] to-[#338aff] 
+    shadow-lg shadow-[#0066ff]/30 z-[9999]"
+></div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const progressBar = document.getElementById('reading-progress-bar')
+    if (!progressBar) return
+
+    const updateProgressBar = () => {
+      const scrollHeight = document.documentElement.scrollHeight - 
+                          document.documentElement.clientHeight
+      const scrolled = document.documentElement.scrollTop
+      const progress = (scrolled / scrollHeight) * 100
+      progressBar.style.width = `${progress}%`
+    }
+
+    window.addEventListener('scroll', updateProgressBar, { passive: true })
+    updateProgressBar()
+  })
+</script>
+```
+
+#### Back to top button
+
+A small button appears after scrolling 300 pixels, with smooth scroll-to-top functionality:
+
+```astro
+<Button
+  variant="outline"
+  size="icon"
+  className="fixed right-8 bottom-8 z-50 hidden 
+    size-10 rounded-full border-[#0066ff]/30 
+    bg-gradient-to-br from-[#0066ff]/10 to-transparent 
+    shadow-lg shadow-[#0066ff]/20"
+  id="scroll-to-top"
+>
+  <Icon name="lucide:arrow-up" class="size-5 text-[#0066ff]" />
+</Button>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const button = document.getElementById('scroll-to-top')
+    if (!button) return
+
+    const toggleVisibility = () => {
+      if (window.scrollY > 300) {
+        button.classList.remove('hidden')
+      } else {
+        button.classList.add('hidden')
+      }
+    }
+
+    button.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    })
+
+    window.addEventListener('scroll', toggleVisibility, { passive: true })
+    toggleVisibility()
+  })
+</script>
+```
+
+#### Enhanced navigation
+
+The header includes a shining text effect on the site title:
+
+```astro
+<Link href="/" class="flex items-center gap-3 group">
+  <Image 
+    src={logo} 
+    alt="Logo" 
+    class="size-6 transition-all group-hover:scale-110 
+      drop-shadow-[0_0_8px_rgba(0,102,255,0.4)] 
+      dark:drop-shadow-[0_0_12px_rgba(51,138,255,0.6)]" 
+  />
+  <span class="text-lg font-bold 
+    bg-gradient-to-r from-[#0066ff] via-[#338aff] to-[#0066ff] 
+    bg-clip-text text-transparent 
+    bg-[length:200%_100%] animate-shine">
+    {SITE.title}
+  </span>
+</Link>
+```
+
+The shine animation is defined in the global CSS:
+
+```css
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.animate-shine {
+  animation: shine 3s linear infinite;
+}
+```
+
+#### Custom 404 page
+
+Error states maintain the site's aesthetic:
+
+```astro
+<section class="flex min-h-[60vh] flex-col items-center 
+  justify-center gap-y-8 py-16 text-center">
+  <!-- Large 404 with blur effect -->
+  <div class="relative">
+    <div class="absolute inset-0 blur-3xl opacity-30">
+      <div class="bg-gradient-to-r from-[#0066ff] to-[#338aff] 
+        h-full w-full"></div>
+    </div>
+    <h1 class="relative text-9xl font-bold 
+      bg-gradient-to-r from-[#0066ff] to-[#338aff] 
+      bg-clip-text text-transparent">
+      404
+    </h1>
+  </div>
+
+  <!-- Icon -->
+  <div class="flex size-20 items-center justify-center 
+    rounded-full bg-gradient-to-br from-[#0066ff] to-[#338aff] 
+    shadow-lg shadow-[#0066ff]/30">
+    <Icon name="lucide:search-x" class="size-10 text-white" />
+  </div>
+
+  <div class="max-w-md space-y-3">
+    <h2 class="text-3xl font-bold">Page Not Found</h2>
+    <p class="text-muted-foreground text-lg">
+      The page you're looking for doesn't exist or has been moved.
+    </p>
+  </div>
+</section>
+```
+
+### Content architecture improvements
+
+The about page was restructured to provide a comprehensive professional profile:
+
+**Personal introduction**: A detailed narrative replaces generic placeholder text, explaining the journey from smartphone repair technician to Information System Manager over nine years of professional development.
+
+**Categorized skills**: Technologies are organized into logical categories (Programming Languages, Frontend Knowledge, Backend & Cloud Services, Tools & Platforms) using the TechSection component with appropriate icons.
+
+**Featured content**: The page showcases one featured project and one latest blog post, each occupying a full row for maximum visual impact.
+
+## Technical implementation details
+
+### Animation system
+
+Sequential entrance animations create a polished first impression on the homepage. The global CSS defines multiple keyframe animations:
+
+```css
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { 
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from { 
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+```
+
+These animations are applied with utility classes:
+
+```css
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.5s ease-out;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+/* Staggered delays */
+.animation-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+```
+
+Homepage implementation with cascading animations:
+
+```astro
+<section class="py-16 text-center animate-fade-in">
+  <div class="mb-6 flex justify-center animate-scale-in">
+    <Image
+      src={avatar}
+      alt="kznava avatar"
+      width={128}
+      height={128}
+      class="size-32 rounded-full object-cover 
+        shadow-lg shadow-[#0066ff]/40 animate-pulse-subtle"
+    />
+  </div>
+  
+  <h1 class="mb-2 bg-gradient-to-r from-[#0066ff] to-[#338aff] 
+    bg-clip-text text-5xl font-bold text-transparent 
+    animate-slide-up">
+    kznava
+  </h1>
+  
+  <p class="text-muted-foreground mb-4 text-sm 
+    animate-slide-up animation-delay-100">
+    Juan Navarro
+  </p>
+  
+  <p class="text-muted-foreground mb-6 text-xl 
+    animate-slide-up animation-delay-150">
+    Software Developer & Gamer
+  </p>
+  
+  <div class="flex justify-center gap-3 
+    animate-slide-up animation-delay-300">
+    <!-- Quick action buttons -->
+  </div>
+</section>
+```
+
+### Image optimization
+
+All images leverage Astro's built-in image optimization. The avatar is imported and rendered with explicit dimensions:
+
+```astro
+---
+import { Image } from 'astro:assets'
+import avatar from '../../public/static/avatar.jpg'
+---
+
+<Image
+  src={avatar}
+  alt="kznava avatar"
+  width={128}
+  height={128}
+  class="size-32 rounded-full object-cover 
+    shadow-lg shadow-[#0066ff]/40 
+    ring-2 ring-[#0066ff]/20 dark:ring-[#338aff]/30"
+/>
+```
+
+For blog and project cards, images are loaded at 1200x630 with high quality settings:
+
+```astro
+{entry.data.image && (
+  <Image
+    src={entry.data.image}
+    alt={entry.data.title}
+    width={1200}
+    height={630}
+    quality="high"
+    class="aspect-video w-full object-cover 
+      transition-transform duration-300 group-hover:scale-105"
+  />
+)}
+```
+
+This ensures optimal loading performance while maintaining visual quality across different viewport sizes.
+
+### Responsive design patterns
+
+The site employs mobile-first responsive design with careful attention to typography scales, spacing, and component layouts. Tech stack cards, work experience timelines, and content grids all adapt gracefully to different screen sizes.
+
+## Deployment and performance
+
+The site is built as a static site, ensuring fast load times and excellent performance metrics. Astro's partial hydration means only necessary JavaScript is shipped to the client, keeping bundle sizes minimal.
+
+### Future enhancements
+
+While the current implementation achieves the core vision, several potential enhancements are being considered:
+
+- Integration with GitHub API to dynamically display repository statistics
+- Progressive Web App capabilities for offline access
+- Advanced search functionality across blog content
+
+## Conclusion
+
+Building kznava.dev demonstrated how a well-architected template like [astro-erudite](https://github.com/jktrn/astro-erudite) can serve as an excellent foundation for creating a unique, personalized web presence. By focusing on thoughtful customization rather than wholesale replacement, the result maintains the template's technical strengths while expressing individual style and requirements.
+
+The key to successful template customization lies in understanding the underlying architecture, identifying extension points, and implementing changes that enhance rather than fight against the original design. This approach results in a maintainable codebase that can evolve over time while retaining its core identity.
+
+For developers considering similar projects, [astro-erudite](https://github.com/jktrn/astro-erudite) offers an excellent starting point. Its combination of modern tooling, thoughtful defaults, and extensible architecture makes it ideal for those who want to focus on content and customization rather than foundational infrastructure.
+

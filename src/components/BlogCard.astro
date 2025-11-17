@@ -1,7 +1,6 @@
 ---
 import AvatarComponent from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
 import {
   getCombinedReadingTime,
   getSubpostCount,
@@ -25,39 +24,52 @@ const authors = await parseAuthors(entry.data.authors ?? [])
 const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 ---
 
-<div
-  class="hover:bg-muted/50 rounded-xl border p-4 transition-colors duration-300 ease-in-out"
+<article
+  class="group relative overflow-hidden rounded-2xl border border-[#0066ff]/20 bg-gradient-to-br from-[#0066ff]/5 via-transparent to-[#338aff]/5 p-6 transition-all duration-300 hover:border-[#0066ff]/40 hover:shadow-lg hover:shadow-[#0066ff]/10 dark:border-[#338aff]/30 dark:from-[#0066ff]/10 dark:to-[#338aff]/10 dark:hover:border-[#338aff]/50 dark:hover:shadow-[#338aff]/20"
 >
   <Link
     href={`/${entry.collection}/${entry.id}`}
-    class="flex flex-col gap-4 sm:flex-row"
+    class="flex flex-col gap-6"
   >
     {
       entry.data.image && (
-        <div class="w-full sm:max-w-3xs sm:shrink-0">
+        <div class="overflow-hidden rounded-xl border border-[#0066ff]/20">
           <Image
             src={entry.data.image}
             alt={entry.data.title}
             width={1200}
             height={630}
-            class="object-cover"
+            quality="high"
+            class="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         </div>
       )
     }
 
-    <div class="grow">
-      <h3 class="mb-1 text-lg font-medium">{entry.data.title}</h3>
-      <p class="text-muted-foreground mb-2 text-sm">{entry.data.description}</p>
+    <!-- Header with icon -->
+    <div class="flex items-start gap-4">
+      <div class="flex size-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#0066ff] to-[#338aff] shadow-lg shadow-[#0066ff]/30">
+        <Icon name="lucide:file-text" class="size-6 text-white" />
+      </div>
+      <div class="flex-1">
+        <h3 class="mb-2 text-xl font-bold group-hover:text-[#0066ff] transition-colors dark:group-hover:text-[#338aff]">
+          {entry.data.title}
+        </h3>
+        <p class="text-muted-foreground text-base leading-relaxed">
+          {entry.data.description}
+        </p>
+      </div>
+    </div>
 
-      <div
-        class="text-muted-foreground mb-2 flex flex-wrap items-center gap-x-2 text-xs"
-      >
+    <!-- Metadata section -->
+    <div class="flex flex-col gap-4">
+      <!-- Authors and Date Info -->
+      <div class="flex flex-wrap items-center gap-3">
         {
           authors.length > 0 && (
             <>
               {authors.map((author) => (
-                <div class="flex items-center gap-x-1.5">
+                <div class="flex items-center gap-2 rounded-lg bg-[#0066ff]/10 px-3 py-1.5 dark:bg-[#338aff]/20">
                   <AvatarComponent
                     client:load
                     src={author.avatar}
@@ -65,35 +77,39 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
                     fallback={author.name[0]}
                     className="size-5 rounded-full"
                   />
-                  <span>{author.name}</span>
+                  <span class="text-sm font-medium">{author.name}</span>
                 </div>
               ))}
-              <Separator orientation="vertical" className="h-4!" />
             </>
           )
         }
-        <span>{formattedDate}</span>
-        <Separator orientation="vertical" className="h-4!" />
-        <span>{readTime}</span>
+        <div class="flex items-center gap-1.5 rounded-lg bg-[#0066ff]/10 px-3 py-1.5 dark:bg-[#338aff]/20">
+          <Icon name="lucide:calendar" class="size-4 text-[#0066ff] dark:text-[#338aff]" />
+          <span class="text-sm font-medium">{formattedDate}</span>
+        </div>
+        <div class="flex items-center gap-1.5 rounded-lg bg-[#0066ff]/10 px-3 py-1.5 dark:bg-[#338aff]/20">
+          <Icon name="lucide:clock" class="size-4 text-[#0066ff] dark:text-[#338aff]" />
+          <span class="text-sm font-medium">{readTime}</span>
+        </div>
         {
           subpostCount > 0 && (
-            <>
-              <Separator orientation="vertical" className="h-4!" />
-              <span class="flex items-center gap-1">
-                <Icon name="lucide:file-text" class="size-3" />
+            <div class="flex items-center gap-1.5 rounded-lg bg-[#0066ff]/10 px-3 py-1.5 dark:bg-[#338aff]/20">
+              <Icon name="lucide:files" class="size-4 text-[#0066ff] dark:text-[#338aff]" />
+              <span class="text-sm font-medium">
                 {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
               </span>
-            </>
+            </div>
           )
         }
       </div>
 
+      <!-- Tags -->
       {
-        entry.data.tags && (
+        entry.data.tags && entry.data.tags.length > 0 && (
           <div class="flex flex-wrap gap-2">
             {entry.data.tags.map((tag) => (
-              <Badge variant="muted" className="flex items-center gap-x-1">
-                <Icon name="lucide:hash" class="size-3" />
+              <Badge variant="muted" className="px-3 py-1">
+                <Icon name="lucide:hash" class="mr-1 size-3" />
                 {tag}
               </Badge>
             ))}
@@ -101,5 +117,14 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
         )
       }
     </div>
+
+    <!-- Link indicator -->
+    <div class="flex items-center gap-2 text-sm font-medium text-[#0066ff] dark:text-[#338aff]">
+      <span>Read Article</span>
+      <Icon 
+        name="lucide:arrow-right" 
+        class="size-4 transition-transform group-hover:translate-x-1" 
+      />
+    </div>
   </Link>
-</div>
+</article>

@@ -1,16 +1,31 @@
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_271_118)">
-<rect width="512" height="74" fill="#CCCCCC"/>
-<rect y="146" width="512" height="74" fill="#CCCCCC"/>
-<rect y="292" width="512" height="74" fill="#CCCCCC"/>
-<rect y="438" width="512" height="74" fill="#CCCCCC"/>
-<rect y="74" width="72" height="72" fill="#CCCCCC"/>
-<rect y="366" width="72" height="72" fill="#CCCCCC"/>
-<rect x="440" y="220" width="72" height="72" fill="#CCCCCC"/>
-</g>
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+ "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="1328.000000pt" height="1328.000000pt" viewBox="0 0 1328.000000 1328.000000"
+ preserveAspectRatio="xMidYMid meet">
 <defs>
-<clipPath id="clip0_271_118">
-<rect width="512" height="512" fill="white"/>
-</clipPath>
+  <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" style="stop-color:#0066ff;stop-opacity:1" />
+    <stop offset="50%" style="stop-color:#338aff;stop-opacity:1" />
+    <stop offset="100%" style="stop-color:#0052cc;stop-opacity:1" />
+  </linearGradient>
 </defs>
+<g transform="translate(0.000000,1328.000000) scale(0.100000,-0.100000)"
+fill="url(#logoGradient)" stroke="none">
+<path d="M3555 11103 c-390 -24 -700 -159 -952 -414 -234 -238 -361 -511 -398
+-855 -22 -206 -22 -6229 0 -6434 41 -385 229 -711 547 -950 171 -129 360 -212
+580 -255 l128 -25 3190 0 3191 0 126 26 c239 49 413 132 619 296 243 191 433
+528 483 855 15 100 16 6438 0 6550 -11 86 -48 229 -79 312 -161 422 -503 730
+-939 846 -214 57 -79 55 -3396 53 -1677 -1 -3072 -3 -3100 -5z m1755 -2795 l1
+-1313 57 60 c31 33 239 263 462 510 222 248 515 571 650 720 135 148 288 316
+340 374 52 57 156 172 230 256 74 83 236 263 360 399 124 137 235 261 248 277
+l23 29 900 0 900 0 -123 -137 c-152 -170 -497 -550 -633 -698 -299 -325 -1443
+-1572 -1593 -1736 l-24 -27 200 -283 c321 -458 730 -1038 1080 -1535 97 -138
+332 -471 522 -740 189 -269 402 -569 472 -666 70 -98 128 -180 128 -183 0 -3
+-386 -5 -859 -5 l-858 0 -155 223 c-85 122 -174 251 -198 287 -45 67 -326 468
+-790 1130 -145 206 -322 459 -393 563 -72 103 -134 187 -138 187 -7 0 -140
+-143 -607 -655 l-201 -220 -1 -757 0 -758 -735 0 -735 0 0 3005 0 3005 735 0
+735 0 0 -1312z"/>
+</g>
 </svg>

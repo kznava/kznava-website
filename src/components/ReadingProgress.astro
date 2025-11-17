@@ -1,0 +1,36 @@
+---
+// Reading progress bar for blog posts
+---
+
+<div
+  id="reading-progress"
+  class="fixed left-0 top-0 z-[60] h-1 bg-gradient-to-r from-[#0066ff] to-[#338aff] shadow-lg shadow-[#0066ff]/50 dark:shadow-[#338aff]/50 transition-all duration-150"
+  style="width: 0%"
+>
+</div>
+
+<script>
+  function updateReadingProgress() {
+    const progressBar = document.getElementById('reading-progress')
+    if (!progressBar) return
+
+    const windowHeight = window.innerHeight
+    const documentHeight = document.documentElement.scrollHeight
+    const scrollTop = window.scrollY || document.documentElement.scrollTop
+
+    const scrollProgress =
+      (scrollTop / (documentHeight - windowHeight)) * 100
+
+    progressBar.style.width = `${Math.min(scrollProgress, 100)}%`
+  }
+
+  // Update on scroll
+  window.addEventListener('scroll', updateReadingProgress, { passive: true })
+
+  // Update on page load
+  updateReadingProgress()
+
+  // Update on resize
+  window.addEventListener('resize', updateReadingProgress, { passive: true })
+</script>
+

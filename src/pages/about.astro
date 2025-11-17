@@ -1,12 +1,21 @@
 ---
+import BlogCard from '@/components/BlogCard.astro'
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import Link from '@/components/Link.astro'
 import PageHead from '@/components/PageHead.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
+import TechSection from '@/components/TechSection.astro'
+import { Badge } from '@/components/ui/badge'
 import Layout from '@/layouts/Layout.astro'
-import { getAllProjects } from '@/lib/data-utils'
+import { getAllProjects, getRecentPosts } from '@/lib/data-utils'
+import { Icon } from 'astro-icon/components'
+import { Image } from 'astro:assets'
+import avatar from '../../public/static/avatar.jpg'
 
 const projects = await getAllProjects()
+const pinnedProject = projects[0] // Get first project only
+const recentPosts = await getRecentPosts(1) // Get only 1 blog post
+const pinnedPost = recentPosts[0]
 ---
 
 <Layout class="max-w-3xl">
@@ -15,32 +24,155 @@ const projects = await getAllProjects()
 
   <section>
     <div class="min-w-full">
+      <!-- Hero Section -->
+        <div class="mb-8 flex items-start gap-6">
+          <Image
+            src={avatar}
+            alt="kznava avatar"
+            width={80}
+            height={80}
+            class="size-20 shrink-0 rounded-full object-cover shadow-lg shadow-[#0066ff]/40 ring-2 ring-[#0066ff]/20 dark:ring-[#338aff]/30"
+          />
+          <div class="flex-1">
+            <h1 class="mb-2 text-3xl font-bold">
+              kznava
+            </h1>
+          <div class="mb-4 flex flex-wrap gap-2">
+            <Badge
+              variant="default"
+              className="bg-gradient-to-r from-[#0066ff] to-[#0052cc]"
+            >
+              <Icon name="lucide:code" class="mr-1 size-3" />
+              Software Developer
+            </Badge>
+            <Badge variant="muted">
+              <Icon name="lucide:gamepad-2" class="mr-1 size-3" />
+              Gamer
+            </Badge>
+          </div>
+        </div>
+      </div>
+
+      <!-- Introduction -->
       <div class="prose mb-8">
-        <p class="mt-0">
-          astro-erudite is an opinionated, unstyled static blogging template
-          that prioritizes simplicity and performance, built with <Link
-            href="https://astro.build"
-            external
-            underline>Astro</Link
-          >, <Link href="https://tailwindcss.com" external underline
-            >Tailwind</Link
-          >, and <Link href="https://ui.shadcn.com" external underline
-            >shadcn/ui</Link
-          >. It provides a clean foundation for your content while being
-          extremely easy to customize.
+        <p class="mt-0 text-base leading-relaxed">
+          Hey! I'm <strong>Juan Navarro</strong>, but you can call me <strong class="text-[#0066ff] dark:text-[#338aff]">kznava</strong>. 
+          I'm an Information System Manager and Senior .NET Developer currently leading digital transformation 
+          initiatives at <strong>Multitel Pagliero S.p.A.</strong> in Piedmont, Italy.
         </p>
-        <p>
-          To learn more about the philosophy behind this template, check out the
-          following blog post: <Link
-            href="/blog/the-state-of-static-blogs"
-            underline>The State of Static Blogs in 2024</Link
-          >.
+        <p class="text-base leading-relaxed">
+          With over <strong>9 years of experience</strong> in software development, I've evolved from smartphone repair 
+          technician to managing enterprise IT infrastructures. My journey through various roles—from data management 
+          to full-stack development—has given me a unique perspective on technology and business needs.
+        </p>
+        <p class="text-base leading-relaxed">
+          I specialize in <strong>.NET ecosystem</strong>, building scalable web applications with <strong>C#</strong>, 
+          <strong>T-SQL</strong>, and modern frameworks. When I'm not architecting systems or mentoring developers, 
+          you'll find me gaming or experimenting with <strong>Godot Engine</strong>.
+        </p>
+        <p class="text-base leading-relaxed">
+          I'm passionate about creating efficient solutions that drive business growth. Always eager to learn 
+          and collaborate on innovative projects!
         </p>
       </div>
 
-      <h2 class="mb-4 text-2xl font-medium">Example Projects Listing</h2>
-      <div class="flex flex-col gap-4">
-        {projects.map((project) => <ProjectCard project={project} />)}
+      <hr class="border-border my-8" />
+
+      <!-- Programming Languages & Technologies -->
+      <div class="mb-8">
+        <TechSection
+          title="Programming Languages & Technologies"
+          technologies={[
+            { name: 'C# / .NET', icon: 'lucide:code-xml' },
+            { name: 'VB.NET', icon: 'lucide:code' },
+            { name: 'VB6', icon: 'lucide:file-code' },
+            { name: 'JavaScript', icon: 'lucide:braces' },
+            { name: 'T-SQL', icon: 'lucide:database' },
+            { name: 'GDScript', icon: 'lucide:gamepad-2' },
+            { name: 'Python', icon: 'lucide:file-code-2' },
+          ]}
+        />
+      </div>
+
+      <!-- Frontend Knowledge -->
+      <div class="mb-8">
+        <TechSection
+          title="Frontend Knowledge"
+          technologies={[
+            { name: 'Tailwind CSS', icon: 'lucide:palette' },
+            { name: 'Bootstrap', icon: 'lucide:layout-grid' },
+            { name: 'Astro', icon: 'lucide:rocket' },
+            { name: 'WordPress', icon: 'lucide:whole-word' },
+          ]}
+        />
+      </div>
+
+      <!-- Backend & Cloud Services -->
+      <div class="mb-8">
+        <TechSection
+          title="Backend & Cloud Services"
+          technologies={[
+            { name: 'Azure', icon: 'lucide:cloud' },
+            { name: 'Docker', icon: 'lucide:container' },
+            { name: 'MongoDB', icon: 'lucide:database' },
+            { name: 'Auth0', icon: 'lucide:shield-check' },
+          ]}
+        />
+      </div>
+
+      <!-- Tools & Platforms -->
+      <div class="mb-8">
+        <TechSection
+          title="Tools & Platforms"
+          technologies={[
+            { name: 'Godot Engine', icon: 'lucide:gamepad-2' },
+            { name: 'Affinity', icon: 'lucide:pencil-ruler' },
+          ]}
+        />
+      </div>
+
+      <hr class="border-border my-8" />
+
+      <!-- Featured Project -->
+      <div class="mb-8">
+        <div class="mb-4 flex items-center justify-between">
+          <h2 class="text-2xl font-medium">
+            Featured Project
+          </h2>
+          <Link
+            href="/projects"
+            class="text-muted-foreground hover:text-foreground flex items-center gap-1 text-sm transition-colors"
+          >
+            View all
+            <Icon name="lucide:arrow-right" class="size-4" />
+          </Link>
+        </div>
+        {pinnedProject ? (
+          <ProjectCard project={pinnedProject} />
+        ) : (
+          <p class="text-muted-foreground text-sm">No projects yet.</p>
+        )}
+      </div>
+
+      <!-- Latest Blog Post -->
+      <div class="mb-8">
+        <div class="mb-4 flex items-center justify-between">
+          <h2 class="text-2xl font-medium">
+            Latest Post
+          </h2>
+          <Link
+            href="/blog"
+            class="text-muted-foreground hover:text-foreground flex items-center gap-1 text-sm transition-colors"
+          >
+            View all
+            <Icon name="lucide:arrow-right" class="size-4" />
+          </Link>
+        </div>
+        {pinnedPost ? (
+          <BlogCard entry={pinnedPost} />
+        ) : (
+          <p class="text-muted-foreground text-sm">No posts yet.</p>
+        )}
       </div>
     </div>
   </section>
