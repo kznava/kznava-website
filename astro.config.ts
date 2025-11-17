@@ -20,6 +20,10 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   site: 'https://kznava.dev',
+  build: {
+    inlineStylesheets: 'auto',
+    assets: '_assets',
+  },
   integrations: [
     expressiveCode({
       themes: ['github-light', 'github-dark'],
