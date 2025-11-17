@@ -164,6 +164,18 @@
   animation-duration: 0s;
 }
 
+/* Improve view transitions - prevent glitches during redirects */
+::view-transition-group(root) {
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+}
+
+/* Hide view transition during redirects to prevent visual glitches */
+::view-transition-old(root):only-child,
+::view-transition-new(root):only-child {
+  animation: none;
+}
+
 /* Prevent layout shifts from images */
 img {
   max-width: 100%;
