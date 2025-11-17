@@ -158,6 +158,18 @@
   background: linear-gradient(135deg, #338aff 0%, #0066ff 100%);
 }
 
+/* Prevent image expansion during view transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0s;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  will-change: auto;
+}
+
 @keyframes float {
   0%, 100% {
     transform: translate(0, 0) scale(1);
