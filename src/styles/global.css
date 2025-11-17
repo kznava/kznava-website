@@ -164,10 +164,58 @@
   animation-duration: 0s;
 }
 
+/* Prevent layout shifts from images */
 img {
   max-width: 100%;
   height: auto;
   will-change: auto;
+  display: block;
+}
+
+/* Fix SVG icons from expanding */
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Ensure Icon component SVGs respect size classes and don't expand */
+svg[data-icon] {
+  width: 1em;
+  height: 1em;
+  max-width: 100%;
+  max-height: 100%;
+  flex-shrink: 0;
+}
+
+/* Prevent SVG icons from expanding - use explicit size constraints */
+svg.size-3 {
+  width: 0.75rem !important;
+  height: 0.75rem !important;
+  max-width: 0.75rem !important;
+  max-height: 0.75rem !important;
+}
+
+svg.size-4 {
+  width: 1rem !important;
+  height: 1rem !important;
+  max-width: 1rem !important;
+  max-height: 1rem !important;
+}
+
+svg.size-5 {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  max-width: 1.25rem !important;
+  max-height: 1.25rem !important;
+}
+
+svg.size-6 {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  max-width: 1.5rem !important;
+  max-height: 1.5rem !important;
 }
 
 @keyframes float {
