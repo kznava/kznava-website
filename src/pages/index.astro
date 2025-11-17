@@ -2,84 +2,151 @@
 import BlogCard from '@/components/BlogCard.astro'
 import Link from '@/components/Link.astro'
 import PageHead from '@/components/PageHead.astro'
+import TechSection from '@/components/TechSection.astro'
+import WorkExperience from '@/components/WorkExperience.astro'
 import { buttonVariants } from '@/components/ui/button'
 import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
 import { getRecentPosts } from '@/lib/data-utils'
+import { Icon } from 'astro-icon/components'
+import { Image } from 'astro:assets'
+import avatar from '../../public/static/avatar.jpg'
 
 const blog = await getRecentPosts(SITE.featuredPostCount)
 ---
 
-<Layout class="max-w-3xl">
+<Layout class="max-w-4xl">
   <PageHead slot="head" title="Home" />
-  <section class="rounded-lg border">
-    <div class="flex flex-col space-y-1.5 p-6">
-      <h3 class="text-3xl leading-none font-medium">er·u·dite</h3>
-      <p class="text-muted-foreground text-sm">
-        /ˈer(y)əˌdīt/ &bull; <span class="font-medium">adjective</span>
-      </p>
+
+  <!-- Hero Section -->
+  <section class="py-16 text-center animate-fade-in">
+    <div class="mb-6 flex justify-center animate-scale-in">
+      <div class="relative">
+        <Image
+          src={avatar}
+          alt="kznava avatar"
+          width={128}
+          height={128}
+          class="size-32 rounded-full object-cover shadow-lg shadow-[#0066ff]/40 ring-2 ring-[#0066ff]/20 dark:ring-[#338aff]/30 animate-pulse-subtle"
+        />
+      </div>
     </div>
-    <div class="p-6 pt-0">
-      <p class="text-muted-foreground mb-2 text-sm">
-        astro-erudite is an opinionated, unstyled static blogging template built
-        with <Link
-          href="https://astro.build"
-          class="text-foreground"
-          external
-          underline>Astro</Link
-        >, <Link
-          href="https://tailwindcss.com"
-          class="text-foreground"
-          external
-          underline>Tailwind</Link
-        >, and <Link
-          href="https://ui.shadcn.com"
-          class="text-foreground"
-          external
-          underline>shadcn/ui</Link
-        >. Extraordinarily loosely based on the <Link
-          href="https://astro-micro.vercel.app/"
-          class="text-foreground"
-          external
-          underline>Astro Micro</Link
-        > theme.
-      </p>
-      <p class="text-muted-foreground text-sm">
-        To use this template, check out the <Link
-          href="https://github.com/jktrn/astro-erudite"
-          class="text-foreground"
-          underline
-          external>GitHub</Link
-        > repository. To learn more about why this template exists, read this blog
-        post: <Link
-          href="/blog/the-state-of-static-blogs"
-          class="text-foreground"
-          underline>The State of Static Blogs in 2024</Link
-        >.
-      </p>
-    </div>
-  </section>
-  <section class="flex flex-col gap-y-4">
-    <h2 class="text-2xl font-medium">Latest posts</h2>
-    <ul class="flex flex-col gap-y-4">
-      {
-        blog.map((post) => (
-          <li>
-            <BlogCard entry={post} />
-          </li>
-        ))
-      }
-    </ul>
-    <div class="flex justify-center">
+    <h1
+      class="mb-2 bg-gradient-to-r from-[#0066ff] to-[#338aff] bg-clip-text text-5xl font-bold text-transparent dark:from-[#338aff] dark:to-[#66a3ff] animate-slide-up"
+    >
+      kznava
+    </h1>
+    <p class="text-muted-foreground mb-4 text-sm animate-slide-up animation-delay-100">
+      Juan Navarro
+    </p>
+    <p class="text-muted-foreground mb-6 text-xl animate-slide-up animation-delay-150">
+      Software Developer & Gamer
+    </p>
+    <p class="text-muted-foreground mx-auto mb-8 max-w-2xl text-lg animate-slide-up animation-delay-200">
+      Welcome to my personal space on the web. I build things with code and
+      share my journey through technology.
+    </p>
+
+    <!-- Quick Links -->
+    <div class="flex flex-wrap justify-center gap-3 animate-slide-up animation-delay-300">
       <Link
         href="/blog"
-        class={buttonVariants({ variant: 'ghost' }) + ' group'}
+        class={buttonVariants({ variant: 'default' }) +
+          ' group bg-gradient-to-r from-[#0066ff] to-[#0052cc] hover:from-[#0052cc] hover:to-[#003d99] shadow-lg shadow-[#0066ff]/30'}
       >
-        See all posts <span
-          class="ml-1.5 transition-transform group-hover:translate-x-1"
-          >&rarr;</span
-        >
+        <Icon name="lucide:book-open" class="mr-2 size-4" />
+        View Blog
       </Link>
+      <Link
+        href="/about"
+        class={buttonVariants({ variant: 'outline' }) +
+          ' group border-[#0066ff]/30 hover:border-[#0066ff]/50 hover:bg-[#0066ff]/5 dark:border-[#338aff]/30 dark:hover:border-[#338aff]/50'}
+      >
+        <Icon name="lucide:user" class="mr-2 size-4" />
+        About Me
+      </Link>
+      <Link
+        href="https://github.com/kznava"
+        external
+        class={buttonVariants({ variant: 'outline' }) +
+          ' group border-[#0066ff]/30 hover:border-[#0066ff]/50 hover:bg-[#0066ff]/5 dark:border-[#338aff]/30 dark:hover:border-[#338aff]/50'}
+      >
+        <Icon name="lucide:github" class="mr-2 size-4" />
+        GitHub
+      </Link>
+    </div>
+  </section>
+
+  <!-- Skills Preview -->
+  <section class="mb-12 animate-slide-up animation-delay-400">
+    <TechSection
+      title="Tech Stack"
+      centered={true}
+      className="p-8 hover:shadow-2xl hover:shadow-[#0066ff]/20 hover:scale-[1.02] dark:hover:shadow-[#338aff]/30"
+      technologies={[
+        { name: 'C# / .NET' },
+        { name: 'VB.NET' },
+        { name: 'T-SQL' },
+        { name: 'JavaScript' },
+        { name: 'Python' },
+        { name: 'MongoDB' },
+        { name: 'Auth0' },
+        { name: 'Azure' },
+        { name: 'Docker' },
+        { name: 'Godot Engine' },
+      ]}
+    />
+  </section>
+
+    <!-- Work Experience -->
+    <section class="mb-12 animate-slide-up animation-delay-450">
+      <h2 class="mb-8 text-3xl font-medium">Work Experience</h2>
+      <div class="pl-2">
+        <WorkExperience
+          title="Information System Manager"
+          company="Multitel Pagliero S.p.A."
+          period="Feb 2022 - Present"
+          description="Leading digital transformation initiatives, defining and implementing innovative strategies to optimize corporate information systems. Managing robust IT infrastructures with expertise in system architecture, data management, and IT security. Collaborating with multidisciplinary teams to develop customized solutions that improve productivity and reduce costs."
+          technologies={['ERP', 'System Architecture', 'IT Security', 'Infrastructure Management']}
+          icon="lucide:building-2"
+        />
+        <WorkExperience
+          title="Senior .NET Developer"
+          company="Multitel Pagliero S.p.A."
+          period="Jan 2020 - Present"
+          description="Specializing in both back-end and front-end development with C# and T-SQL. Creating efficient and performant web solutions using .NET and Entity Framework. Designing and implementing sophisticated, scalable web applications that meet enterprise business needs."
+          technologies={['C#', '.NET', 'Entity Framework', 'T-SQL', 'Web Development']}
+          icon="lucide:code"
+        />
+        <WorkExperience
+          title="Data Management Technician"
+          company="iRiparo SRL"
+          period="Oct 2016 - Dec 2019"
+          description="Managed data systems and processes in Saluzzo, Piedmont. Worked with XML and programming to optimize data workflows and business operations."
+          technologies={['XML', 'Data Management', 'Programming']}
+          icon="lucide:database"
+        />
+      </div>
+    </section>
+
+  <!-- Latest Posts -->
+  <section class="flex flex-col gap-y-6 animate-slide-up animation-delay-500">
+    <div class="flex items-center justify-between">
+      <h2 class="text-3xl font-medium">Latest Posts</h2>
+      <Link
+        href="/blog"
+        class="text-muted-foreground hover:text-foreground flex items-center gap-1 text-sm transition-colors"
+      >
+        View all
+        <Icon name="lucide:arrow-right" class="size-4" />
+      </Link>
+    </div>
+    <div class="flex flex-col gap-6">
+      {
+        blog.map((post) => (
+          <BlogCard entry={post} />
+        ))
+      }
     </div>
   </section>
 </Layout>

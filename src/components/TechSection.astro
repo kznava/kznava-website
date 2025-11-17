@@ -1,0 +1,35 @@
+---
+import { Badge } from '@/components/ui/badge'
+import { Icon } from 'astro-icon/components'
+
+interface Tech {
+  name: string
+  icon?: string
+}
+
+interface Props {
+  title: string
+  technologies: Tech[]
+  centered?: boolean
+  className?: string
+}
+
+const { title, technologies, centered = false, className = '' } = Astro.props
+---
+
+<div class={`group cursor-default rounded-2xl border border-[#0066ff]/20 bg-gradient-to-br from-[#0066ff]/5 to-transparent p-6 transition-all duration-300 hover:border-[#0066ff]/40 hover:shadow-xl hover:shadow-[#0066ff]/15 dark:border-[#338aff]/30 dark:from-[#0066ff]/10 dark:hover:border-[#338aff]/50 dark:hover:shadow-[#338aff]/20 ${className}`}>
+  <h2 class={`mb-4 text-xl font-medium ${centered ? 'text-center' : ''}`}>
+    {title}
+  </h2>
+  <div class={`flex flex-wrap gap-2 ${centered ? 'justify-center' : ''}`}>
+    {
+      technologies.map((tech) => (
+        <Badge variant="muted">
+          {tech.icon && <Icon name={tech.icon} class="mr-1 size-3" />}
+          {tech.name}
+        </Badge>
+      ))
+    }
+  </div>
+</div>
+

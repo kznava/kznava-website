@@ -1,0 +1,81 @@
+---
+// Back to top button - appears when scrolling down
+---
+
+<button
+  id="back-to-top"
+  class="fixed bottom-6 right-6 z-40 hidden size-10 items-center justify-center rounded-full bg-gradient-to-br from-[#0066ff] to-[#338aff] shadow-lg shadow-[#0066ff]/30 transition-all hover:scale-110 hover:shadow-xl hover:shadow-[#0066ff]/40 dark:shadow-[#338aff]/30 dark:hover:shadow-[#338aff]/40"
+  aria-label="Scroll to top"
+  title="Back to top"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="text-white transition-transform group-hover:-translate-y-0.5"
+  >
+    <path d="m18 15-6-6-6 6"></path>
+  </svg>
+</button>
+
+<script>
+  function initBackToTop() {
+    const backToTopButton = document.getElementById('back-to-top')
+    if (!backToTopButton) return
+
+    // Show/hide button based on scroll position
+    function toggleButton() {
+      if (!backToTopButton) return
+      
+      const scrolled = window.scrollY > 300
+      if (scrolled) {
+        backToTopButton.classList.remove('hidden')
+        backToTopButton.classList.add('flex')
+      } else {
+        backToTopButton.classList.remove('flex')
+        backToTopButton.classList.add('hidden')
+      }
+    }
+
+    // Scroll to top smoothly
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      })
+    })
+
+    // Listen to scroll events
+    window.addEventListener('scroll', toggleButton, { passive: true })
+
+    // Initial check
+    toggleButton()
+  }
+
+  // Initialize on page load
+  document.addEventListener('astro:page-load', initBackToTop)
+</script>
+
+<style>
+  #back-to-top {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+

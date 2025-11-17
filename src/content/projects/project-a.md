@@ -1,9 +1,8 @@
 ---
-name: 'Project A'
-description: 'This is an example project description! You should replace this with a description of your own project.'
-tags: ['Framework A', 'Library B', 'Tool C', 'Resource D']
-image: '../../../public/static/1200x630.png'
-link: 'https://example.com'
-startDate: '2024-01-01'
-endDate: '2024-02-01'
+name: 'Personal Portfolio Website'
+description: 'A modern, minimalistic portfolio website built with Astro, featuring animated backgrounds, blue gradient themes, and responsive design. Showcases projects, blog posts, and technical skills with a focus on user experience and performance.'
+tags: ['Astro', 'TypeScript', 'Tailwind CSS', 'Web Design']
+link: 'https://github.com/kznava/kznava-website'
+startDate: '2025-11-01'
+image: '../../../public/static/projects/kznavadev.png'
 ---
