@@ -36,12 +36,14 @@ import { Icon } from 'astro-icon/components'
     const currentTheme = element.getAttribute('data-theme')
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
 
-    element.classList.add('[&_*]:transition-none')
-    element.setAttribute('data-theme', newTheme)
-    window.getComputedStyle(element).getPropertyValue('opacity')
-
+    // Batch DOM operations to avoid forced reflow
     requestAnimationFrame(() => {
-      element.classList.remove('[&_*]:transition-none')
+      element.classList.add('[&_*]:transition-none')
+      element.setAttribute('data-theme', newTheme)
+      
+      requestAnimationFrame(() => {
+        element.classList.remove('[&_*]:transition-none')
+      })
     })
 
     localStorage.setItem('theme', newTheme)
@@ -59,12 +61,14 @@ import { Icon } from 'astro-icon/components'
     const storedTheme = localStorage.getItem('theme') || 'light'
     const element = document.documentElement
 
-    element.classList.add('[&_*]:transition-none')
-    window.getComputedStyle(element).getPropertyValue('opacity')
-    element.setAttribute('data-theme', storedTheme)
-
+    // Batch DOM operations to avoid forced reflow
     requestAnimationFrame(() => {
-      element.classList.remove('[&_*]:transition-none')
+      element.classList.add('[&_*]:transition-none')
+      element.setAttribute('data-theme', storedTheme)
+
+      requestAnimationFrame(() => {
+        element.classList.remove('[&_*]:transition-none')
+      })
     })
 
     initThemeToggle()
