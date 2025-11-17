@@ -4,7 +4,8 @@
 
 **Personal Website & Developer Portfolio**
 
-[![License]](LICENSE)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8fb50de4-9d70-4fe4-bf6a-381a6eded652/deploy-status)](https://app.netlify.com/projects/kznava/deploys)
+[![License: MIT](https://img.shields.io/badge/License-MIT-0066ff.svg?style=for-the-badge)](LICENSE)
 
 [Live Site](https://kznava.dev) • [Blog](https://kznava.dev/blog) • [Projects](https://kznava.dev/projects)
 
@@ -270,5 +271,3 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 Built by [kznava](https://github.com/kznava) | [LinkedIn](https://linkedin.com/in/juan-ignacio-navarro-maza)
-
-[License]: https://img.shields.io/github/license/kznava/kznava-website?color=0066ff&style=for-the-badge
